@@ -1,9 +1,10 @@
 package com.swe642.hw4.survey.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Component;
+
 import com.swe642.hw4.survey.data.SurveyData;
 import com.swe642.hw4.survey.reports.AllReports;
 import com.swe642.hw4.survey.reports.SurveyReport;
@@ -11,22 +12,22 @@ import com.swe642.hw4.survey.reports.SurveyReport;
 import java.util.List;
 
 
-
-public interface SurveyRepo extends CrudRepository<SurveyData, Long> {
+@Component
+public interface SurveyRepo extends JpaRepository<SurveyData, Long> {
 	
-	@Query("SELECT S.ID AS ID, S.STUDENTID AS STUDENTID FROM SURVEYDATA S")
+	@Query("SELECT S.id AS ID, S.studentid AS STUDENTID FROM SURVEYDATA S")
 	List<AllReports> reportSurveyList();
 	
 	/*
 	 * @param id
 	 * @return
 	 */
-	@Query(value="SELECT S.ID AS ID, S.STUDENTNAME AS STUDENTNAME, S.STUDENTID AS STUDENTID, S.SURVEYDATE AS SURVEYDATE, "
-      + "S.STREET AS STREET, S.CITY AS CITY, S.STATE AS STATE, S.ZIP AS ZIP, "
-      + "S.TELNUM AS TELNUM, S.EMAIL AS EMAIL, S.URL AS URL, S.LIKED AS LIKED, S.HEARD AS HEARD, "
-      + "S.GRADMON AS GRADMON, S.GRADYEAR AS GRADYEAR, S.RECOMMEND AS RECOMMEND, S.COMMENTS AS COMMENTS "			
+	@Query("SELECT S.id AS ID, S.name AS STUDENTNAME, S.studentid AS STUDENTID, S.surveydate AS SURVEYDATE, "
+      + "S.street AS STREET, S.city AS CITY, S.state AS STATE, S.zip AS ZIP, "
+      + "S.telnum AS TELNUM, S.email AS EMAIL, S.url AS URL, S.liked AS LIKED, S.heard AS HEARD, "
+      + "S.gradmon AS GRADMON, S.gradyear AS GRADYEAR, S.recommend AS RECOMMEND, S.comments AS COMMENTS "			
       + "FROM SURVEYDATA S "
-      + "WHERE S.ID =:SID;")
-	SurveyReport findSurveyByID(@Param("SID") Long id);	
+      + "WHERE ID =:id")
+	SurveyReport findSurveyByID(@Param("id") Long id);	
 
 }

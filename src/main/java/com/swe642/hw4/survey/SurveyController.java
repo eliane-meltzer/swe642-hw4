@@ -31,10 +31,9 @@ public class SurveyController {
 	public ResponseEntity<SurveyData> saveStudentFormData(RequestEntity<?> o) {
 		//save survey form data to database		
 		LinkedHashMap<String, Object> body = (LinkedHashMap<String, Object>) o.getBody();
-		SurveyData s = new SurveyData(body);		
-		
-		ResponseEntity<SurveyData> r = ResponseEntity.ok().body(repo.save(s));		
-		return r;    
+		SurveyData s = SurveyData.factory(body);			
+		 		
+		return ResponseEntity.ok().body(repo.save(s));    
 	}
 		
 	@PostMapping(path=ServiceLinks.GET_SURVEY, consumes = "application/json", produces = "application/json")

@@ -1,29 +1,35 @@
 package com.swe642.hw4.survey.data;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.util.LinkedHashMap;
 import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
 
 
-@Entity
+@Entity(name="SURVEYDATA")
 @Data
 @Table(name="SURVEYDATA")
-public class SurveyData {
+public final class SurveyData {
 	
 	//member variables
+  @Id 
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="ID")
-	private @Id @GeneratedValue Long id;
+	private  Long id;
 	@Column(name="STUDENTNAME")
 	private String name = ""; 
 	@Column(name="STUDENTID")
-	private String studentID = ""; 
+	private String studentid = ""; 
 	@Column(name="STREET")
 	private String street = "";
 	@Column(name="CITY")
@@ -33,7 +39,7 @@ public class SurveyData {
 	@Column(name="ZIP")
 	private String zip = ""; 
 	@Column(name="TELNUM")
-	private String telNum = ""; 
+	private String telnum = ""; 
 	@Column(name="EMAIL")
 	private String email = ""; 
 	@Column(name="URL")
@@ -41,58 +47,86 @@ public class SurveyData {
 	@Column(name="HEARD")
 	private String heard = ""; 
 	@Column(name="GRADMON")
-	private String gradMon = ""; 
+	private String gradmon = ""; 
 	@Column(name="GRADYEAR")
-	private String gradYear = ""; 
+	private String gradyear = ""; 
 	@Column(name="RECOMMEND")
 	private String recommend = ""; 
 	@Column(name="COMMENTS")
 	private String comments = "";
 	@Column(name="SURVEYDATE")
-	private String surveyDate = "";
+	private java.sql.Date surveydate = new java.sql.Date(0);
 	@Column(name="LIKED")
 	private String[] liked = new String[6];
 	
 	/*
 	 * requires non-null linked hashmap containing keys for each field
 	 */
-	public SurveyData(LinkedHashMap<String, Object> map) {
-		this.id = null;
-		if(map.containsKey("name")) {this.name = (String) map.get("name");}		
-		if(map.containsKey("studentid")) {this.studentID = (String) map.get("studentid");}
-		if(map.containsKey("surveydate")) {this.surveyDate = (String) map.get("surveydate");}
-		if(map.containsKey("street")) {this.street = (String) map.get("street");}
-		if(map.containsKey("city")) {this.city = (String) map.get("city");}
-		if(map.containsKey("state")) {this.state = (String) map.get("state");}
-		if(map.containsKey("zip")) {this.zip = (String) map.get("zip");}
-		if(map.containsKey("telnum")) {this.telNum = (String) map.get("telnum");}
-		if(map.containsKey("email")) {this.email = (String) map.get("email");}
-		if(map.containsKey("url")) {this.url = (String) map.get("url");}
-		if(map.containsKey("heard")) {this.heard = (String) map.get("heard");}
-		if(map.containsKey("gradmon")) {this.gradMon = (String) map.get("gradmon");}
-		if(map.containsKey("gradyear")) {this.gradYear = (String) map.get("gradyear");}
-		if(map.containsKey("recommend")) {this.recommend = (String) map.get("recommend");}
-		if(map.containsKey("comments")) {this.comments = (String) map.get("comments");}
+	public static SurveyData factory(LinkedHashMap<String, Object> map) {
+		
+    String name = ""; 
+		String studentID = ""; 
+		java.sql.Date surveydate = new java.sql.Date(0); 
+		String street = "";
+		String city = ""; 
+		String state = ""; 
+		String zip = "";
+		String telNum = "";
+		String email = ""; 
+		String url = ""; 
+		String[] liked = new String[6]; 
+		String heard = ""; 
+		String gradMon = "";
+		String gradYear = "";
+		String recommend = ""; 
+		String comments = "";
+		if(map.containsKey("name")) {name = (String) map.get("name");}		
+		if(map.containsKey("studentid")) {studentID = (String) map.get("studentid");}
+		if(map.containsKey("surveydate")) {      
+      String strDt = (String) map.get("surveydate");
+      LocalDate dt;
+      try {
+        dt = LocalDate.parse(strDt);
+      } catch(Exception e) {
+        dt = LocalDate.now();
+      }     
+      surveydate = new java.sql.Date(dt.toInstant().toEpochMilli()(dt, ZoneOffset.UTC));}
+		if(map.containsKey("street")) {street = (String) map.get("street");}
+		if(map.containsKey("city")) {city = (String) map.get("city");}
+		if(map.containsKey("state")) {state = (String) map.get("state");}
+		if(map.containsKey("zip")) {zip = (String) map.get("zip");}
+		if(map.containsKey("telnum")) {telNum = (String) map.get("telnum");}
+		if(map.containsKey("email")) {email = (String) map.get("email");}
+		if(map.containsKey("url")) {url = (String) map.get("url");}
+		if(map.containsKey("heard")) {heard = (String) map.get("heard");}
+		if(map.containsKey("gradmon")) {gradMon = (String) map.get("gradmon");}
+		if(map.containsKey("gradyear")) {gradYear = (String) map.get("gradyear");}
+		if(map.containsKey("recommend")) {recommend = (String) map.get("recommend");}
+		if(map.containsKey("comments")) {comments = (String) map.get("comments");}
+		
+		return new SurveyData(name, studentID, surveydate, street, city, state, zip, telNum, email, url, liked, heard, gradMon, gradYear, recommend, comments);
 	}
-	
-	
-	public SurveyData(String name, String studentID, String surveyDate, String street, String city, String state, String zip, String telNum,
+
+	//empty constructor
+	SurveyData() {}
+	//paramaterized constructor
+	SurveyData(String name, String studentID, java.sql.Date surveyDate, String street, String city, String state, String zip, String telNum,
 			String email, String url, String[] liked, String heard, String gradMon, String gradYear, String recommend, String comments) {
 		this.id = null;
 		this.name = name;
-		this.studentID = studentID;
-		this.surveyDate = surveyDate;
+		this.studentid = studentID;
+		this.surveydate = surveyDate;
 		this.street = street;
 		this.city = city;
 		this.state = state;
 		this.zip = zip;
-		this.telNum = telNum;
+		this.telnum = telNum;
 		this.email = email;
 		this.url = url;
 		this.liked = liked;
 		this.heard = heard;
-		this.gradMon = gradMon;
-		this.gradYear = gradYear;
+		this.gradmon = gradMon;
+		this.gradyear = gradYear;
 		this.recommend = recommend;
 		this.comments = comments;
 	}
@@ -104,19 +138,19 @@ public class SurveyData {
 		SurveyData d = (SurveyData) o;
 		return Objects.equals(id, d.id) &&
 				Objects.equals(name, d.name) &&
-				Objects.equals(studentID, d.studentID) &&
-				Objects.equals(surveyDate, d.surveyDate) &&
+				Objects.equals(studentid, d.studentid) &&
+				Objects.equals(surveydate, d.surveydate) &&
 				Objects.equals(street, d.street) &&
 				Objects.equals(city, d.city) &&
 				Objects.equals(state, d.state) &&
 				Objects.equals(zip, d.zip) && 
-				Objects.equals(telNum, d.telNum) &&
+				Objects.equals(telnum, d.telnum) &&
 				Objects.equals(email, d.email) &&
 				Objects.equals(url, d.url) &&
 				Objects.equals(liked, d.liked) &&
 				Objects.equals(heard, d.heard) &&
-				Objects.equals(gradMon, d.gradMon) &&
-				Objects.equals(gradYear, d.gradYear) &&
+				Objects.equals(gradmon, d.gradmon) &&
+				Objects.equals(gradyear, d.gradyear) &&
 				Objects.equals(recommend, d.recommend) &&
 				Objects.equals(comments, d.comments);
 		
@@ -124,16 +158,18 @@ public class SurveyData {
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name, studentID, surveyDate, street, city, state, zip,
-				telNum, email, url, liked, heard, gradMon, gradYear, recommend, comments);
+		return Objects.hash(id, name, studentid, surveydate, street, city, state, zip,
+    telnum, email, url, liked, heard, gradmon, gradyear, recommend, comments);
 	}
 	
 	@Override
 	public String toString() {
-		return "ID: "+id+"\nStudentName: "+name+"\nStudentID: "+studentID+"\nSurvey date: "
-			      +surveyDate+"\nStreet Address: "+street+"\nCity: "+city+"\nState: "+state+"\nZip: "
-			      +zip+"\nTelephone: "+telNum+"\nEmail: "+email+"\nHomepage: "
-			      +url+"\nLiked: "+liked+"\nHeard: "+heard+"\nGrad Month: "+gradMon+
-			      "\nGrad Year: "+gradYear+"\nRecommend: "+recommend+"\nComments: "+comments;
+		return "ID: "+id+"\nStudentName: "+name+"\nStudentID: "+studentid+"\nSurvey date: "
+			      +surveydate+"\nStreet Address: "+street+"\nCity: "+city+"\nState: "+state+"\nZip: "
+			      +zip+"\nTelephone: "+telnum+"\nEmail: "+email+"\nHomepage: "
+			      +url+"\nLiked: "+liked+"\nHeard: "+heard+"\nGrad Month: "+gradmon+
+			      "\nGrad Year: "+gradyear+"\nRecommend: "+recommend+"\nComments: "+comments;
 	}
+
+
 }
