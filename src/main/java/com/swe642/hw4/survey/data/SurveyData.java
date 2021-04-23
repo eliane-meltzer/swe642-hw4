@@ -1,11 +1,13 @@
 package com.swe642.hw4.survey.data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.LinkedHashMap;
 import java.util.Objects;
-
+import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -55,7 +57,7 @@ public final class SurveyData {
 	@Column(name="COMMENTS")
 	private String comments = "";
 	@Column(name="SURVEYDATE")
-	private java.sql.Date surveydate = new java.sql.Date(0);
+	private Date surveydate = new Date(0);
 	@Column(name="LIKED")
 	private String[] liked = new String[6];
 	
@@ -66,7 +68,7 @@ public final class SurveyData {
 		
     String name = ""; 
 		String studentID = ""; 
-		java.sql.Date surveydate = new java.sql.Date(0); 
+		Date surveydate = new Date(0); 
 		String street = "";
 		String city = ""; 
 		String state = ""; 
@@ -83,14 +85,15 @@ public final class SurveyData {
 		if(map.containsKey("name")) {name = (String) map.get("name");}		
 		if(map.containsKey("studentid")) {studentID = (String) map.get("studentid");}
 		if(map.containsKey("surveydate")) {      
-      String strDt = (String) map.get("surveydate");
-      LocalDate dt;
-      try {
-        dt = LocalDate.parse(strDt);
-      } catch(Exception e) {
-        dt = LocalDate.now();
-      }     
-      surveydate = new java.sql.Date(dt.toInstant().toEpochMilli()(dt, ZoneOffset.UTC));}
+			String strDt = (String) map.get("surveydate");
+			LocalDateTime dt;
+			try {
+				dt = LocalDateTime.parse(strDt);
+			} catch(Exception e) {
+				dt = LocalDateTime.now();
+			}     
+			surveydate = new Date(dt.atZone(ZoneId.of("America/New_York")).toInstant().toEpochMilli());
+		}
 		if(map.containsKey("street")) {street = (String) map.get("street");}
 		if(map.containsKey("city")) {city = (String) map.get("city");}
 		if(map.containsKey("state")) {state = (String) map.get("state");}
@@ -110,7 +113,7 @@ public final class SurveyData {
 	//empty constructor
 	SurveyData() {}
 	//paramaterized constructor
-	SurveyData(String name, String studentID, java.sql.Date surveyDate, String street, String city, String state, String zip, String telNum,
+	SurveyData(String name, String studentID, Date surveyDate, String street, String city, String state, String zip, String telNum,
 			String email, String url, String[] liked, String heard, String gradMon, String gradYear, String recommend, String comments) {
 		this.id = null;
 		this.name = name;
