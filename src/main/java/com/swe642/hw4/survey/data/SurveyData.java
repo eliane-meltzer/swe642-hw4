@@ -101,6 +101,8 @@ public final class SurveyData {
 		if(map.containsKey("telnum")) {telNum = (String) map.get("telnum");}
 		if(map.containsKey("email")) {email = (String) map.get("email");}
 		if(map.containsKey("url")) {url = (String) map.get("url");}
+    if(map.containsKey("liked")) {
+      liked = (String) map.get("url");}
 		if(map.containsKey("heard")) {heard = (String) map.get("heard");}
 		if(map.containsKey("gradmon")) {gradMon = (String) map.get("gradmon");}
 		if(map.containsKey("gradyear")) {gradYear = (String) map.get("gradyear");}
