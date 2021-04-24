@@ -52,7 +52,16 @@ public class SurveyController {
 	@GetMapping(path=ServiceLinks.LIST_ALL)
 	public ResponseEntity<?> getAllSurveyIDs() {
 		List<AllReports> r =  repo.reportSurveyList();
-		return ResponseEntity.ok(r);
+    int cnt = r.size();    
+    
+    String[] ret = new String[cnt];
+    for(int x=0; x<cnt; x++){
+      AllReports s = (AllReports) r.get(x);      
+      Long id = (Long) s.getId();
+      String sid = (String) s.getStudentid();
+      ret[x]= "{id: "+id+", studentid: "+sid+"}";     
+    }		
+		return ResponseEntity.ok().body(ret);
 	}
 	
 	@PostMapping(path=ServiceLinks.PROCESS_DATA, consumes = "application/json", produces = "application/json")

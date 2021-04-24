@@ -72,6 +72,3 @@ Listing all surveys(/list):
   Retrieve specific survey(/survey)
     Requires: HTTP Post request with the unique 'id' of the survey as the body.
     Returns: HTTP Response object, if the survey was found the body will contain a JSON object like what is returned from "/save". If the survey was not found, the response will have a value of noContent.
-
-Issues:
-  List all surveys does not work.

@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.swe642.hw4.survey.data.SurveyData;
 import com.swe642.hw4.survey.reports.AllReports;
@@ -11,11 +12,11 @@ import com.swe642.hw4.survey.reports.SurveyReport;
 
 import java.util.List;
 
-
+@Repository
 @Component
 public interface SurveyRepo extends JpaRepository<SurveyData, Long> {
 	
-	@Query("SELECT S.id AS ID, S.studentid AS STUDENTID FROM SURVEYDATA S")
+	@Query("SELECT NEW com.swe642.hw4.survey.reports.AllReports(id, studentid) FROM SURVEYDATA")
 	List<AllReports> reportSurveyList();
 	
 	/*
