@@ -1,0 +1,12 @@
+<div id="modal-content-wrapper">
+    <header id="modal-header">
+        <h1 id="modal-title">Welcome!</h1>
+    </header>
+    <section id="modal-body">
+        <p>{{getGreeting()}} {{name}}! Welcome to the student survey.</p>
+    </section>
+    <footer id="modal-footer">
+        <button mat-raised-button id="modal-action-button" (click)="reset()">Not you?</button>
+        <button mat-raised-button id="modal-cancel-button" (click)="close()">Close</button>
+    </footer>
+</div>

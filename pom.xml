@@ -13,7 +13,7 @@
 	<version>0.0.1</version>
 	<packaging>war</packaging>
 	<name>hw4</name>
-	<description>REST JPA </description>
+	<description>REST JPA</description>
 	<properties>
 		<java.version>15</java.version>
 	</properties>

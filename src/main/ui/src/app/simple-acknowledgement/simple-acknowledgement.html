@@ -1,0 +1,16 @@
+<div class="container">
+    <div [hidden]="submitted">
+        <h1>Simple Acknowledgement Form</h1>
+        <h3>Thank you for submitting the for.</h3>
+    </div>
+
+    Student IDs
+    <div *ngFor="let student of students; let i = index">
+        <span>{{student}}</span>
+    </div>
+</div>
+<!--
+Copyright Google LLC. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that
+can be found in the LICENSE file at https://angular.io/license
+-->

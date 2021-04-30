@@ -1,0 +1,173 @@
+<div class="container">
+  <div [hidden]="submitted">
+    <h1>George Mason University</h1>
+    <h3>Student Survey Form</h3>
+    {{diagnostic}}
+    <form (ngSubmit)="onSubmit()" #studentSurveyForm="ngForm">
+
+      <div class="form-group">
+        <label for="studentID">Student ID</label>
+        <input type="text" class="form-control" id="studentID"
+               required
+               [(ngModel)]="model.studentID" name="studentID"
+               #name="ngModel">
+        <div [hidden]="name.valid || name.pristine"
+             class="alert alert-danger">
+          Student ID is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" class="form-control" id="firstName"
+               required
+               [(ngModel)]="model.firstName" name="firstName"
+               #name="ngModel">
+        <div [hidden]="name.valid || name.pristine"
+             class="alert alert-danger">
+          First name is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" class="form-control" id="lastName"
+               required
+               [(ngModel)]="model.lastName" name="lastName"
+               #name="ngModel">
+        <div [hidden]="name.valid || name.pristine"
+             class="alert alert-danger">
+          Last name is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" required
+               [(ngModel)]="model.email" email="true" name="email">
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="phone" class="form-control" id="phone" required
+               [(ngModel)]="model.phone" name="phone">
+      </div>
+
+      <div class="form-group">
+        <label for="city">City</label>
+        <input type="text" class="form-control" id="city" required
+               [(ngModel)]="model.city" name="city">
+      </div>
+
+      <div class="form-group">
+        <label for="state">State</label>
+        <input type="text" class="form-control" id="state" required
+               [(ngModel)]="model.state" name="state">
+      </div>
+
+      <div class="form-group">
+        <label for="zip">Zip</label>
+        <input type="text" class="form-control" id="zip" required
+               [(ngModel)]="model.zip" name="zip">
+      </div>
+
+      <div class="form-group">
+        <label for="url">Url</label>
+        <input type="text" class="form-control" placeholder="www.google.com" id="url" required
+               [(ngModel)]="model.url" name="url">
+      </div>
+
+      <div class="form-group">
+        <label for="visitDate">Visit Date</label>
+        <input type="text" class="form-control" placeholder="MM/DD/YYYY" id="visitDate" required
+               [(ngModel)]="model.visitDate" name="visitDate">
+      </div>
+
+      <div class="form-group">
+        <label for="likeMost">What did you like most about the campus?</label>
+        <div *ngFor="let l of likeMost; let i = index" formArrayName="likeMost">
+          <input id="likeMost" type="checkbox">
+          <span>{{l}}</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="hear">How'd you hear about us?</label>
+        <div *ngFor="let h of hear; let i = index" formArrayName="hear">
+          <input type="radio" id="hear" name="hear" >
+          <span>{{h}}</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="power">How likely are you to recommend GMU to other students?</label>
+        <select class="form-control" id="power"
+                required
+                [(ngModel)]="model.likelihood" name="power"
+                #power="ngModel">
+          <option *ngFor="let like of likelihood" [value]="like">{{like}}</option>
+        </select>
+        <div [hidden]="power.valid || power.pristine" class="alert alert-danger">
+          Power is required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="graduationMonth">Graduation Month</label>
+        <input type="text" class="form-control" id="graduationMonth"
+               [(ngModel)]="model.graduationMonth" name="graduationMonth">
+      </div>
+
+      <div class="form-group">
+        <label for="graduationYear">Graduation Year</label>
+        <input type="text" class="form-control" id="graduationYear"
+               [(ngModel)]="model.graduationYear" name="graduationYear">
+      </div>
+
+      <div class="form-group">
+        <label for="data">Data</label>
+        <input type="text" class="form-control" id="data" required
+               [(ngModel)]="model.data" name="data">
+      </div>
+
+      <div class="form-group">
+        <label for="comments">Comments</label>
+        <textarea type="text" class="form-control" id="Comments"
+                  [(ngModel)]="model.comments" name="comments"></textarea>
+      </div>
+      <button type="button" class="btn btn-default" (click)="setCookie()">Reset</button>
+
+      <!--      <button type="button" class="btn btn-default" (click)="newHero(); studentSurveyForm.reset()">Reset</button>-->
+      <button type="submit" class="btn btn-success" [disabled]="!studentSurveyForm.form.valid">Submit</button>
+    </form>
+  </div>
+
+  <div [hidden]="!submitted">
+    <h2>You submitted the following:</h2>
+    <div class="row">
+      <div class="col-xs-3">Name</div>
+      <div class="col-xs-9">{{ model.name }}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">Alter Ego</div>
+      <div class="col-xs-9">{{ model.alterEgo }}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">Power</div>
+      <div class="col-xs-9">{{ model.power }}</div>
+    </div>
+    <br>
+    <button class="btn btn-primary" (click)="submitted=false">Edit</button>
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <a class="gmu-logo" href="https://www2.gmu.edu">
+        <img  height="80" width="80" src="https://app.truework.com/api/company/27161/logo?fallback=1">
+    </a>
+  </div>
+</footer>
+<!-- 
+Copyright Google LLC. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that
+can be found in the LICENSE file at https://angular.io/license
+-->

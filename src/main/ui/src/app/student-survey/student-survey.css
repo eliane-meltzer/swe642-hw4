@@ -1,0 +1,15 @@
+.no-style .ng-valid {
+    border-left: 1px  solid #CCC
+}
+
+.no-style .ng-invalid {
+    border-left: 1px  solid #CCC
+}
+
+.gmu-logo {
+    float:right;
+    margin-left:20px
+}
+/*.footer {*/
+/*    width: 100%;*/
+/*}*/
