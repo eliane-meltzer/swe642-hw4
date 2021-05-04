@@ -1,10 +1,13 @@
 package com.swe642.hw4.survey;
 
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.RequestEntity;
@@ -48,20 +51,29 @@ public class SurveyController {
 	    Long val = Long.parseLong(string_id);			
 	    SurveyReport s = repo.findSurveyByID(val);		
 		return ResponseEntity.ok().body(s);		
-	}	
+	}
 	@GetMapping(path=ServiceLinks.LIST_ALL)
 	public ResponseEntity<?> getAllSurveyIDs() {
 		List<AllReports> r =  repo.reportSurveyList();
-    int cnt = r.size();    
-    
-    String[] ret = new String[cnt];
-    for(int x=0; x<cnt; x++){
-      AllReports s = (AllReports) r.get(x);      
-      Long id = (Long) s.getId();
-      String sid = (String) s.getStudentid();
-      ret[x]= "{id: "+id+", studentid: "+sid+"}";     
-    }		
-		return ResponseEntity.ok().body(ret);
+		int cnt = r.size();
+
+		String[] ret = new String[cnt];
+		JSONObject jo = new JSONObject();
+		JSONArray ja = new JSONArray();
+
+		for(int x=0; x<cnt; x++){
+			AllReports s = (AllReports) r.get(x);
+			Long id = (Long) s.getId();
+			String sid = (String) s.getStudentid();
+			ret[x]= "{id: "+id+", studentid: "+sid+"}";
+			Map m = new LinkedHashMap(2);
+			m.put("id", id);
+			m.put("studentid", sid);
+			ja.add(m);
+
+		}
+		jo.put("students", ja);
+		return ResponseEntity.ok().body(jo);
 	}
 	
 	@PostMapping(path=ServiceLinks.PROCESS_DATA, consumes = "application/json", produces = "application/json")
@@ -72,9 +84,15 @@ public class SurveyController {
 		double mean = d.getMean();
 		double std = d.getStdDev();
 		double max = d.getMaxVal();
-		String ret = "{mean: "+mean+", stdDev: "+std+", maxVal: "+max+",}";
+
+		JSONObject jo = new JSONObject();
+		jo.put("mean", d.getMean());
+		jo.put("stdDev", d.getStdDev());
+		jo.put("maxVal", d.getMaxVal());
+
+//		String ret = "{mean: "+mean+", stdDev: "+std+", maxVal: "+max+",}";
 		
-		return ResponseEntity.ok().body(ret);
+		return ResponseEntity.ok().body(jo);
 	}
 	
 }

@@ -2,25 +2,20 @@ export class Student {
 
    id: number;
    name: string;
-   power: string;
-   studentID: string;
-   firstName: string;
-   lastName: string;
-   alterEgo?: string;
+   studentid: string;
    likelihood: string;
    email: string;
-   phone: string;
+   telnum: string;
+   surveydate: string;
    street: string;
    city: string;
    state: string;
    zip: string;
    url: string;
-   visitDate: string;
-   likeMost: string;
+   liked: Array<boolean>;
    hear: string;
-   graduationMonth: string;
-   graduationYear: string;
-   data: string;
+   gradmon: string;
+   gradyear: string;
    comments: string;
   constructor(
   ) {  }

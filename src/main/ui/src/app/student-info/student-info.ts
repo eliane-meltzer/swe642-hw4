@@ -4,12 +4,15 @@ import { Student } from '../models/student';
 import {CookieService} from "../services/cookie-service";
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {BrowserModule} from "@angular/platform-browser";
+import {ActivatedRoute} from "@angular/router";
+import {SurveyService} from "../services/survey-service";
+import {DataService} from "../services/data-service";
 
 @Component({
   selector: 'student-info',
   templateUrl: './student-info.html',
   styleUrls: ['./student-info.css'],
-  providers: [CookieService, FormBuilder]
+  providers: [CookieService, FormBuilder, SurveyService, DataService]
 })
 
 @NgModule({
@@ -20,28 +23,34 @@ import {BrowserModule} from "@angular/platform-browser";
 export class StudentInfo implements OnInit {
   // name: string;
 
-  hear = ["Friends", "TV", "Online", "Other"];
-  likeMost = ["Students", "Location", "Campus", "Atmosphere", "Dorm Rooms", "Sports"];
-  likelihood = ['Very Likely', 'Likely',
-    'Unlikely'];
+  // hear = ["Friends", "TV", "Online", "Other"];
+  // likeMost = ["Students", "Location", "Campus", "Atmosphere", "Dorm Rooms", "Sports"];
+  // likelihood = ['Very Likely', 'Likely',
+  //   'Unlikely'];
   myform: FormGroup;
-
+  id: any;
   model = new Student();
   submitted = false;
 
+  studentID: {id: 0};
 
   constructor(
       private cookie:CookieService,
-      private formBuilder:FormBuilder
+      private formBuilder:FormBuilder,
+      private activatedRoute:ActivatedRoute,
+      private surveyService:SurveyService
   ) {
 
-    this.myform = this.formBuilder.group({
-      likeMost   : this.formBuilder.array(this.likeMost.map(x => !1)),
-      hear : this.formBuilder.array(this.hear.map(x => !1))
-    });
+    this.id = this.activatedRoute.snapshot.paramMap.get("id");
+    console.log("this id: " + this.id);
+    // this.studentID.id = this.id;
   }
 
   ngOnInit() {
+
+    this.surveyService.retrieveSurveyData(this.id).then((result) => {
+console.log("result: " + result);
+    });
 
   //   this.myform = new FormGroup({
   //     first: new FormGroup({
@@ -62,18 +71,10 @@ export class StudentInfo implements OnInit {
   }
 
 
-
   setCookie() {
     this.cookie.setCookie("test", "success", 30)
     console.log("setting cookie test to success");
   }
-
-  // openDialog(): void {
-  //   const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
-  //     width: '250px',
-  //     data: {name: this.name}
-  //   });
-
 
 
   convertToValue(key: string) {
@@ -119,6 +120,11 @@ export class StudentInfo implements OnInit {
 
 export class ComponentOverviewComponent {
 
+}
+
+export interface getStudent{
+  id:number;
+  studentid:number;
 }
 
 /*

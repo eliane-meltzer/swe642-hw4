@@ -60,7 +60,7 @@ public final class SurveyData {
 	private Date surveydate = new Date(0);
 	@Column(name="LIKED")
 	private String[] liked = new String[6];
-	
+
 	/*
 	 * requires non-null linked hashmap containing keys for each field
 	 */
@@ -102,8 +102,11 @@ public final class SurveyData {
 		if(map.containsKey("email")) {email = (String) map.get("email");}
 		if(map.containsKey("url")) {url = (String) map.get("url");}
 		if(map.containsKey("liked")) {
-			
+
 			liked = (String[]) map.get("liked");
+
+//			List<String> temp = (ArrayList<String>) map.get("liked");
+//			liked = temp.toArray(new String[0]);
 		}
 		if(map.containsKey("heard")) {heard = (String) map.get("heard");}
 		if(map.containsKey("gradmon")) {gradMon = (String) map.get("gradmon");}

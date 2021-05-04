@@ -25,5 +25,9 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true,
     "enableIvy": false
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "typings"
+  ]
 }

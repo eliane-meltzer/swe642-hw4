@@ -1,12 +1,17 @@
 <div class="container">
     <div [hidden]="submitted">
         <h1>Simple Acknowledgement Form</h1>
-        <h3>Thank you for submitting the for.</h3>
+        <h3>Thank you for submitting the form.</h3>
+        <p>Mean: {{mean}}</p>
+        <p>Standard Deviation: {{stdDev}}</p>
     </div>
-
     Student IDs
     <div *ngFor="let student of students; let i = index">
-        <span>{{student}}</span>
+<!--        <a href="https://www2.gmu.edu">-->
+        <a [routerLink]="['/student-info', student.id]">{{student.studentid}} </a>
+
+<!--        <span (click)="getStudent(student.id)">{{student.studentid}}</span>-->
+<!--        </a>-->
     </div>
 </div>
 <!--

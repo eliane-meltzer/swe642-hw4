@@ -1,0 +1,6 @@
+{
+  "/api": {
+    "target": "http://localhost:8080/hw4_war_exploded",
+    "secure": false
+  }
+}
