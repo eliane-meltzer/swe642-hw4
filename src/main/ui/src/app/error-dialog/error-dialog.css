@@ -1,0 +1,50 @@
+#modal-content-wrapper {
+    position: fixed;
+    margin-top: 50px;
+    top: 10%;
+    left: 35%;
+    z-index: 1050;
+    width: 50%;
+    height: 25%;
+    margin-left: -10%;
+    background-color: white;
+    border-radius:10px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+}
+
+#modal-title {
+    font-size: 22px;
+    text-align: center;
+    margin-top: 50px;
+}
+
+#modal-body {
+    /*width: 70%;*/
+    /*align-content: center;*/
+    text-align: center;
+    margin-right: 50px;
+    margin-left: 50px;
+}
+
+#modal-footer {
+    justify-self: center;
+    align-self: center;
+}
+
+#modal-action-button {
+    margin-left: 60px;
+    /*background-color:#3b3b3b;*/
+}
+
+#modal-cancel-button {
+    background-color: #006633;
+    float: right;
+    margin-right: 60px;
+    color: white;
+;
+}

@@ -11,6 +11,7 @@ import {SimpleAcknowledgement} from "./simple-acknowledgement/simple-acknowledge
 import {WelcomeDialog} from "./welcome-dialog/welcome-dialog";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { HttpClientModule } from '@angular/common/http';
+import {ErrorDialog} from "./error-dialog/error-dialog";
 
 
 
@@ -29,11 +30,12 @@ import { HttpClientModule } from '@angular/common/http';
     StudentInfo,
     WinnerAcknowledgement,
     SimpleAcknowledgement,
-    WelcomeDialog
+    WelcomeDialog,
+    ErrorDialog
   ],
   providers: [],
   bootstrap: [ AppComponent ],
-  entryComponents: [WelcomeDialog]
+  entryComponents: [WelcomeDialog, ErrorDialog]
 })
 export class AppModule { }
 

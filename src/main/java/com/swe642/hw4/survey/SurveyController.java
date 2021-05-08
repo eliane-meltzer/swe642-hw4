@@ -48,7 +48,8 @@ public class SurveyController {
 	    }
 	    
 	    String string_id = (String) body.get("id");
-	    Long val = Long.parseLong(string_id);			
+	    Long val = Long.parseLong(string_id);
+	    System.out.println("############################" + "id is: " + val);
 	    SurveyReport s = repo.findSurveyByID(val);		
 		return ResponseEntity.ok().body(s);		
 	}

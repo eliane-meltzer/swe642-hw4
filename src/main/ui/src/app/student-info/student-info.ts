@@ -21,12 +21,6 @@ import {DataService} from "../services/data-service";
     FormsModule, ReactiveFormsModule
   ]})
 export class StudentInfo implements OnInit {
-  // name: string;
-
-  // hear = ["Friends", "TV", "Online", "Other"];
-  // likeMost = ["Students", "Location", "Campus", "Atmosphere", "Dorm Rooms", "Sports"];
-  // likelihood = ['Very Likely', 'Likely',
-  //   'Unlikely'];
   myform: FormGroup;
   id: any;
   model = new Student();
@@ -49,73 +43,21 @@ export class StudentInfo implements OnInit {
   ngOnInit() {
 
     this.surveyService.retrieveSurveyData(this.id).then((result) => {
-console.log("result: " + result);
+      console.log(JSON.stringify(result));
+
+      console.log("id: " + result.id);
+      this.model = result;
+      console.log("student id from model: " + this.model.studentid);
+
+      console.log("");
+
     });
 
-  //   this.myform = new FormGroup({
-  //     first: new FormGroup({
-  //       firstName: new FormControl('', Validators.required), (1)
-  //     lastName: new FormControl('', Validators.required),
-  //   }),
-  //       email: new FormControl('', [ (2)
-  //     Validators.required,
-  //     Validators.pattern("[^ @]*@[^ @]*") (3)
-  //   ]),
-  //       password: new FormControl('', [
-  //     Validators.minLength(8), (4)
-  //     Validators.required
-  //   ]),
-  //       language: new FormControl() (5)
-  // });
-    // this.name = this.cookie.getCookie("test");
   }
-
-
-  setCookie() {
-    this.cookie.setCookie("test", "success", 30)
-    console.log("setting cookie test to success");
-  }
-
 
   convertToValue(key: string) {
     return this.myform.value[key].map((x, i) => x && this[key][i]).filter(x => !!x);
   }
-
-  onSubmit() {
-    this.submitted = true;
-    const valueToStore = Object.assign({}, this.myform.value, {
-      cities: this.convertToValue('likeMost'),
-      zip_codes: this.convertToValue('hear')
-    });
-    console.log(valueToStore);
-  }
-
-  // TODO: Remove this when we're done
-  get diagnostic() { return JSON.stringify(this.model); }
-
-  newStudent() {
-    this.model = new Student();
-  }
-
-  // skyDog(): Student {
-  //   const myHero =  new Student(42, 'SkyDog',
-  //                          'Fetch any object at any distance',
-  //                          'Leslie Rollover');
-  //   console.log('My hero is called ' + myHero.name); // "My hero is called SkyDog"
-  //   return myHero;
-  // }
-
-  //////// NOT SHOWN IN DOCS ////////
-
-  // Reveal in html:
-  //   Name via form.controls = {{showFormControls(studentSurveyForm)}}
-  showFormControls(form: any) {
-    return form && form.controls.name &&
-    form.controls.name.value; // Dr. IQ
-  }
-
-  /////////////////////////////
-
 }
 
 export class ComponentOverviewComponent {

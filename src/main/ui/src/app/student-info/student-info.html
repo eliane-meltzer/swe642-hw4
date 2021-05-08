@@ -1,6 +1,25 @@
 <div class="container">
- <p>Student Info</p>
+ <h1>Student Info</h1>
 </div>
+<div class="container">
+    <p *ngIf =model.studentname><span class="heading">Student Name: </span> {{model.studentname}}</p>
+    <p *ngIf =model.studentid><span class="heading">Student ID: </span>{{model.studentid}}</p>
+    <p *ngIf =model.surveydate><span class="heading">Survey Date: </span>{{model.surveydate}}</p>
+    <p *ngIf =model.street><span class="heading">Street: </span>{{model.street}}</p>
+    <p *ngIf =model.city><span class="heading">City: </span>{{model.city}}</p>
+    <p *ngIf =model.state><span class="heading">State: </span>{{model.state}}</p>
+    <p *ngIf =model.zip><span class="heading">Zip: </span>{{model.zip}}</p>
+    <p *ngIf =model.telnum><span class="heading">Phone Number: </span>{{model.telnum}}</p>
+    <p *ngIf =model.email><span class="heading">Email: </span>{{model.email}}</p>
+    <p *ngIf =model.url><span class="heading">Url: </span>{{model.url}}</p>
+    <p *ngIf =model.heard><span class="heading">Heard: </span>{{model.heard}}</p>
+    <p *ngIf =model.gradmon><span class="heading">Graduation Month: </span>{{model.gradmon}}</p>
+    <p *ngIf =model.gradyear><span class="heading">Graduation Year: </span>{{model.gradyear}}</p>
+    <p *ngIf =model.recommend><span class="heading">Recommend: </span>{{model.recommend}}</p>
+    <p *ngIf =model.comments><span class="heading">Comments: </span>{{model.comments}}</p>
+</div>
+
+
 <footer class="footer">
   <div class="container">
     <a class="gmu-logo" href="https://www2.gmu.edu">

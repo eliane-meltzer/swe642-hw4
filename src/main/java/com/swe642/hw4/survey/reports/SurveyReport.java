@@ -1,30 +1,33 @@
 package com.swe642.hw4.survey.reports;
 
 import lombok.AccessLevel;
+import lombok.Data;
 import lombok.Value;
 import lombok.With;
 
+import java.util.Date;
+
 @Value
+@Data
 @With(AccessLevel.PACKAGE)
 public class SurveyReport {
-	public Long id;
-	public String studentid;
-	public String studentname;
-	public String surveydate;
-	public String street;
-	public String city;
-	public String state;
-	public String zip;
-	public String telnum;
-	public String email;
-	public String url;
-	public String liked;
-	public String heard;
-	public String gradmon;
-	public String gradyear;
-	public String recommend;
-	public String comments;
-	
+	public final Long id;
+	public final String studentid;
+	public final String studentname;
+	public final Date surveydate;
+	public final String street;
+	public final String city;
+	public final String state;
+	public final String zip;
+	public final String telnum;
+	public final String email;
+	public final String url;
+	public final String[] liked;
+	public final String heard;
+	public final String gradmon;
+	public final String gradyear;
+	public final String recommend;
+	public final String comments;
   
   public String toString(){
     return "ID: "+id+"\nStudentName: "+studentname+"\nStudentID: "+studentid+"\nSurvey date: "

@@ -32,7 +32,7 @@ export class SimpleAcknowledgement implements OnInit {
 
   hear = ["Friends", "TV", "Online", "Other"];
   likeMost = ["Students", "Location", "Campus", "Atmosphere", "Dorm Rooms", "Sports"];
-  likelihood = ['Very Likely', 'Likely',
+  recommend = ['Very Likely', 'Likely',
     'Unlikely'];
   myform: FormGroup;
   mean: any;

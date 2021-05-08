@@ -14,6 +14,7 @@ import {FormBuilder} from "@angular/forms";
 export class WelcomeDialog implements OnInit {
 
     name: string;
+    show: boolean = false;
 
     constructor(
         public dialogRef: MatDialogRef<WelcomeDialog>,
@@ -24,6 +25,14 @@ export class WelcomeDialog implements OnInit {
     ngOnInit() {
         this.name = this.cookie.getCookie("username");
         console.log("name is: " + this.name);
+        if(!this.name) {
+            this.show = false;
+            this.reset();
+        }
+        else {
+            console.log("name is set");
+            this.show = true;
+        }
     }
 
     // When the user clicks the action button a.k.a. the logout button in the\

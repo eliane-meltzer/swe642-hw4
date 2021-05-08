@@ -1,0 +1,14 @@
+<div id="modal-content-wrapper"  mat-dialog-content>
+    <header id="modal-header">
+        <h1 id="modal-title">Uh Oh.</h1>
+    </header>
+    <section id="modal-body">
+        <h3>Please fix the following errors before submitting the form.</h3>
+        <div [innerHTML]="error"></div>
+
+
+    </section>
+    <footer id="modal-footer">
+        <button mat-raised-button id="modal-cancel-button" (click)="close()">Close</button>
+    </footer>
+</div>

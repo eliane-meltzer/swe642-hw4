@@ -1,73 +1,57 @@
 <div class="container">
-  <div [hidden]="submitted">
+  <div>
     <h1>George Mason University</h1>
     <h3>Student Survey Form</h3>
-    {{diagnostic}}
+
     <form (ngSubmit)="onSubmit()" #studentSurveyForm="ngForm">
 
       <div class="form-group">
         <label for="studentID">Student ID</label>
-        <input type="text" class="form-control" id="studentID"
-
+        <input type="text" class="form-control" id="studentID" required
                [(ngModel)]="model.studentid" name="studentID"
                #name="ngModel">
-        <div [hidden]="name.valid || name.pristine"
-             class="alert alert-danger">
-          Student ID is required
-        </div>
       </div>
 
       <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" class="form-control" id="name"
-               required
-               [(ngModel)]="model.name" name="name"
+        <input type="text" class="form-control" id="name" required
+               [(ngModel)]="model.studentname" name="name"
                #name="ngModel">
-        <div [hidden]="name.valid || name.pristine"
-             class="alert alert-danger">
-          Name is required
-        </div>
       </div>
-
-<!--      <div class="form-group">-->
-<!--        <label for="lastName">Last Name</label>-->
-<!--        <input type="text" class="form-control" id="lastName"-->
-<!--               required-->
-<!--               [(ngModel)]="model.lastName" name="lastName"-->
-<!--               #name="ngModel">-->
-<!--        <div [hidden]="name.valid || name.pristine"-->
-<!--             class="alert alert-danger">-->
-<!--          Last name is required-->
-<!--        </div>-->
-<!--      </div>-->
 
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" class="form-control" id="email"
+        <input type="email" class="form-control" id="email" required
                [(ngModel)]="model.email" email="true" name="email">
       </div>
 
       <div class="form-group">
         <label for="phone">Phone Number</label>
-        <input type="phone" class="form-control" id="phone"
+        <input type="phone" class="form-control" id="phone" required
                [(ngModel)]="model.telnum" name="phone">
       </div>
 
       <div class="form-group">
+        <label for="street">City</label>
+        <input type="text" class="form-control" id="street" required
+               [(ngModel)]="model.street" name="street">
+      </div>
+
+      <div class="form-group">
         <label for="city">City</label>
-        <input type="text" class="form-control" id="city"
+        <input type="text" class="form-control" id="city" required
                [(ngModel)]="model.city" name="city">
       </div>
 
       <div class="form-group">
         <label for="state">State</label>
-        <input type="text" class="form-control" id="state"
+        <input type="text" class="form-control" id="state" required
                [(ngModel)]="model.state" name="state">
       </div>
 
       <div class="form-group">
         <label for="zip">Zip</label>
-        <input type="text" class="form-control" id="zip"
+        <input type="text" class="form-control" id="zip" required minlength="5" maxLength="5"
                [(ngModel)]="model.zip" name="zip">
       </div>
 
@@ -83,14 +67,6 @@
                [(ngModel)]="model.surveydate" name="visitDate">
       </div>
 
-<!--      <div class="form-group">-->
-<!--        <label for="liked">What did you like most about the campus?</label>-->
-<!--        <div *ngFor="let l of likeMost; let i = index" formArrayName="liked">-->
-<!--          <input id="liked" type="checkbox" [(ngModel)]="model.liked" name="liked" value="{{l}}">-->
-<!--          <span>{{l}}</span>-->
-<!--        </div>-->
-<!--      </div>-->
-
       <div class="form-group">
       <label for="liked">What did you like most about the campus?</label>
       <div *ngFor="let l of likeMost">
@@ -105,24 +81,21 @@
 
 
       <div class="form-group">
-        <label for="hear">How'd you hear about us?</label>
-        <div *ngFor="let h of hear; let i = index" formArrayName="hear">
-          <input type="radio" id="hear" name="hear" [(ngModel)]="model.hear" value="{{h}}" name="hear" >
+        <label for="heard">How'd you hear about us?</label>
+        <div *ngFor="let h of heard; let i = index" formArrayName="heard">
+          <input type="radio" id="heard" name="heard" [(ngModel)]="model.heard" value="{{h}}" name="heard" required>
           <span>{{h}}</span>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="power">How likely are you to recommend GMU to other students?</label>
-        <select class="form-control" id="power"
+        <label for="recommend">How likely are you to recommend GMU to other students?</label>
+        <select class="form-control" id="recommend"
 
-                [(ngModel)]="model.likelihood" name="power"
+                [(ngModel)]="model.recommend" name="recommend"
                 #power="ngModel">
-          <option *ngFor="let like of likelihood" [value]="like">{{like}}</option>
+          <option *ngFor="let rec of recommend" [value]="rec">{{rec}}</option>
         </select>
-        <div [hidden]="power.valid || power.pristine" class="alert alert-danger">
-          Power is required
-        </div>
       </div>
       <div class="form-group">
         <label for="graduationMonth">Graduation Month</label>
@@ -138,7 +111,7 @@
 
       <div class="form-group">
         <label for="data">Data</label>
-        <input type="text" class="form-control" id="data"
+        <input type="text" class="form-control" id="data" required
                [(ngModel)]="data" name="data">
       </div>
 
@@ -147,19 +120,9 @@
         <textarea type="text" class="form-control" id="Comments"
                   [(ngModel)]="model.comments" name="comments"></textarea>
       </div>
-      <button type="button" class="btn btn-default" (click)="setCookie()">Reset</button>
+      <button type="button" class="btn btn-default" (click)="reset()">Reset</button>
       <button type="submit" class="btn btn-success" [disabled]="!studentSurveyForm.form.valid">Submit</button>
     </form>
-  </div>
-
-  <div [hidden]="!submitted">
-    <h2>You submitted the following:</h2>
-    <div class="row">
-      <div class="col-xs-3">Name</div>
-      <div class="col-xs-9">{{ model.name }}</div>
-    </div>
-    <br>
-    <button class="btn btn-primary" (click)="submitted=false">Edit</button>
   </div>
 </div>
 <footer class="footer">

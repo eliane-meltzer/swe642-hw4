@@ -1,9 +1,9 @@
 export class Student {
 
    id: number;
-   name: string;
+   studentname: string;
    studentid: string;
-   likelihood: string;
+   recommend: string;
    email: string;
    telnum: string;
    surveydate: string;
@@ -13,7 +13,7 @@ export class Student {
    zip: string;
    url: string;
    liked: Array<boolean>;
-   hear: string;
+   heard: string;
    gradmon: string;
    gradyear: string;
    comments: string;

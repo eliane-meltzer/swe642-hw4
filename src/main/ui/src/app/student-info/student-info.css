@@ -10,6 +10,11 @@
     float:right;
     margin-left:20px
 }
+
+.heading {
+    font-weight: bold;
+}
+
 /*.footer {*/
 /*    width: 100%;*/
 /*}*/

@@ -1,4 +1,4 @@
-import {Component, NgModule, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, NgModule, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Student } from '../models/student';
 import {CookieService} from "../services/cookie-service";
@@ -8,6 +8,10 @@ import {BrowserModule} from "@angular/platform-browser";
 import {WelcomeDialog} from "../welcome-dialog/welcome-dialog";
 import {Router, ActivatedRoute, ParamMap, Data} from '@angular/router';
 import {DataService} from "../services/data-service";
+import {ErrorDialog} from "../error-dialog/error-dialog";
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { NgForm } from '@angular/forms';
+
 
 
 @Component({
@@ -25,13 +29,13 @@ import {DataService} from "../services/data-service";
 export class StudentSurvey implements OnInit {
   // name: string;
 
-  hear = ["Friends", "TV", "Online", "Other"];
+  heard = ["Friends", "TV", "Online", "Other"];
   // likeMost = ["Students", "Location", "Campus", "Atmosphere", "Dorm Rooms", "Sports"];
-  likelihood = ['Very Likely', 'Likely',
+  recommend = ['Very Likely', 'Likely',
     'Unlikely'];
-
-  mean: any;
-  stdDev: any;
+errorMessage: string = "";
+  // mean: any;
+  // stdDev: any;
 
   likeMost = [
     {name:'Students', value:'Students', checked:false},
@@ -53,67 +57,31 @@ export class StudentSurvey implements OnInit {
       private formBuilder:FormBuilder,
       private dialog: MatDialog,
       private route: Router,
-      private dataService: DataService
+      private dataService: DataService,
   ) {
 
     this.myform = this.formBuilder.group({
       likeMost   : this.formBuilder.array(this.likeMost.map(x => !1)),
-      hear : this.formBuilder.array(this.hear.map(x => !1))
+      heard : this.formBuilder.array(this.heard.map(x => !1))
     });
   }
 
   ngOnInit() {
-    // this.dataService.currentMean.subscribe(message => this.mean = message)
-    // this.dataService.currentStdDev.subscribe(message => this.stdDev = message)
-
-
-    console.log("in oninit, going to open dialog...");
-    this.surveyService.getAllSurveyIDs().then(function(result) {
-      var obj = JSON.stringify(result);
-      result.students.forEach(student => {
-        console.log("student id: " + student.id);
-      });
-    });
       const dialogConfig = new MatDialogConfig();
-      // The user can't close the dialog by clicking outside its body
       dialogConfig.disableClose = true;
       dialogConfig.id = "modal-component";
       dialogConfig.height = "350px";
       dialogConfig.width = "600px";
-      // https://material.angular.io/components/dialog/overview
       const modalDialog = this.dialog.open(WelcomeDialog, dialogConfig);
-
-  //   this.myform = new FormGroup({
-  //     first: new FormGroup({
-  //       firstName: new FormControl('', Validators.required), (1)
-  //     lastName: new FormControl('', Validators.required),
-  //   }),
-  //       email: new FormControl('', [ (2)
-  //     Validators.required,
-  //     Validators.pattern("[^ @]*@[^ @]*") (3)
-  //   ]),
-  //       password: new FormControl('', [
-  //     Validators.minLength(8), (4)
-  //     Validators.required
-  //   ]),
-  //       language: new FormControl() (5)
-  // });
-    // this.name = this.cookie.getCookie("test");
   }
 
 
-  setCookie() {
-    this.cookie.setCookie("test", "success", 30)
-    console.log("setting cookie test to success");
+  reset() {
+    this.model = new Student();
+    this.data = "";
   }
 
-  // openDialog(): void {
-  //   const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
-  //     width: '250px',
-  //     data: {name: this.name}
-  //   });
-
-  selectedOptions() { // right now: ['1','3']
+  selectedOptions() {
     return this.likeMost
         .filter(opt => opt.checked)
         .map(opt => opt.value)
@@ -123,53 +91,102 @@ export class StudentSurvey implements OnInit {
     return this.myform.value[key].map((x, i) => x && this[key][i]).filter(x => !!x);
   }
 
+  validate(): boolean {
+    let AlphaRegEx = /([^a-z ])/i;
+    let AlphaNumericRegEx = /([^a-z\d ])/i;
+    let EmailRegEx = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/i;
+    let formError = false;
+    this.errorMessage = "";
+
+    var firstNameValid = !(AlphaRegEx.test(this.model.studentname));
+
+    if(!firstNameValid) {
+      this.errorMessage += "Invalid student name: " + this.model.studentname+ "<br/>";
+      this.errorMessage += "Student name must contain letters only  <br/><br/>";
+      this.model.studentname = "";
+      formError = true;
+    }
+
+    var addressValid = !(AlphaNumericRegEx.test(this.model.street));
+    if(!addressValid) {
+      this.errorMessage += "Invalid address: " + this.model.street + "<br/>";
+      this.errorMessage += "Address must contain letters and numbers only <br/><br/>";
+      this.model.street = "";
+      formError = true;
+    }
+
+    var emailValid = (EmailRegEx.test(this.model.email));
+    if(!emailValid) {
+      this.errorMessage  += "Invalid email: " + this.model.email + "<br/>";
+      this.errorMessage  += "Email must be in the following format: example@gmail.com <br/><br/>";
+      this.model.email = "";
+      formError = true;
+    }
+    var numChecked = 0;
+    console.log("before for each");
+    this.likeMost.forEach( like => {
+        if(like.checked) {
+          numChecked++
+          console.log(like.name + " is checked ")
+        }
+        });
+
+    if(numChecked < 2) {
+      this.errorMessage += "At least two checkboxes must be checked <br/>";
+      formError = true;
+    }
+
+    if(formError) {
+      const dailogRef = this.dialog.open(ErrorDialog, {
+        width: '350px',
+        height: '800px',
+        data: {
+          errorMessage: this.errorMessage
+        }
+      });
+    }
+
+    if(formError) {
+      return false;
+    } else
+      return true;
+  }
+
+
   onSubmit() {
+
+    var valid = this.validate();
+
     console.log("selected options: " + this.selectedOptions());
     this.submitted = true;
-    // this.model.liked = [true, true, true, true, true, true];
+
     const valueToStore = Object.assign({}, this.myform.value, {
       likeMost: this.convertToValue('likeMost'),
-      hear: this.convertToValue('hear')
+      heard: this.convertToValue('heard')
     });
     console.log(valueToStore);
 
-  this.surveyService.getProcessedData(this.data).then((dataResult) => {
-    console.log(JSON.stringify(dataResult));
-    this.dataService.setMean(dataResult.mean);
-    this.dataService.setStdDev(dataResult.stdDev);
+    this.model.liked = null;
 
-    this.surveyService.saveStudentFormData(this.model).then((result) => {
-      console.log("result: " + result.toString());
-      if(dataResult.mean >= 90)
-        this.route.navigateByUrl('/winner-acknowledgement');
-      else
-        this.route.navigateByUrl('/simple-acknowledgement');
-    });
-    // this.mean = result.mean;
-    // this.stdDev = result.stdDev;
-
-    // result.students.forEach(student => {
-    //   console.log("student id: " + student.id + " " +  student.studentid);
-    //   this.students.push({id: student.id, studentid: student.studentid});
-    // });
-  });
-
-    // this.dataService.setMean(this.mean);
-    // this.dataService.setStdDev(this.stdDev);
+    console.log("this is the model: " + JSON.stringify(this.model));
 
 
+    if(valid) {
 
+      this.surveyService.getProcessedData(this.data).then((dataResult) => {
+        console.log(JSON.stringify(dataResult));
+        this.dataService.setMean(dataResult.mean);
+        this.dataService.setStdDev(dataResult.stdDev);
 
-  //   this.surveyService.saveStudentFormData(this.model).then((result) => {
-  //     console.log("result: " + result.toString());
-  //     // result.students.forEach(student => {
-  //     //   console.log("student id: " + student.id + " " +  student.studentid);
-  //     //   this.students.push({id: student.id, studentid: student.studentid});
-  //     // });
-  //   });
-  //   // this.surveyService.saveStudentFormData(JSON.stringify(this.model))
-  //   this.route.navigateByUrl('/simple-acknowledgement', { state: { data: 'HI THERE' } });
-  //
+        this.surveyService.saveStudentFormData(this.model).then((result) => {
+          console.log("result: " + result.toString());
+          if (dataResult.mean >= 90)
+            this.route.navigateByUrl('/winner-acknowledgement');
+          else
+            this.route.navigateByUrl('/simple-acknowledgement');
+        });
+      });
+    }
   }
 
   // TODO: Remove this when we're done
